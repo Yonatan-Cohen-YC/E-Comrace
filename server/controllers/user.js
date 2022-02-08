@@ -41,6 +41,8 @@ const login = async (req, res) => {
       process.env.JWT_SEC,
       { expiresIn: "3d" }
     );
+    req.user = existingUser;
+    console.log("user is! ", req.user);
     res.status(200).send({ msg: "Logged in succesfully", token });
   } catch (error) {
     res.status(500).send({ msg: `Server error, ${error}` });
