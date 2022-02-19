@@ -1,0 +1,6 @@
+.homeContainer {
+  /* width: 80%; */
+  height: calc(100vh - 120px);
+  background-color: #fff;
+  /* margin: auto; */
+}

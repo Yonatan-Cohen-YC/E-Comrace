@@ -13,8 +13,12 @@ const PORT = process.env.PORT || 5000;
 require("dotenv").config();
 
 // Middlewear
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
-app.use(cors());
 
 //Routes
 app.use("/users", usersRoute);

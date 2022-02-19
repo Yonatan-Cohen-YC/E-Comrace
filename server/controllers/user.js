@@ -13,10 +13,17 @@ const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-    await new User({ ...req.body, password: hashedPassword }).save();
-    res
-      .status(201)
-      .send({ msg: `User ${req.body.username} created succesfully` });
+    const user = await new User({
+      ...req.body,
+      password: hashedPassword,
+    }).save();
+
+    const token = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      process.env.JWT_SEC,
+      { expiresIn: "3d" }
+    );
+    res.status(201).send({ token });
   } catch (error) {
     res.status(500).send({ msg: `Server error, ${error}` });
   }
