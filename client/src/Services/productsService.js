@@ -13,9 +13,19 @@ const getElementById = async (id) => {
   return response.data;
 };
 
+const getProductsByCtg = async (productCategory) => {
+  const response = await axios.post(`${API_URI}/ctg-products`, {
+    productCategory,
+  });
+
+  // console.log("response from service: ", response);
+  return response.data;
+};
+
 const productsService = {
   getAllProducts,
   getElementById,
+  getProductsByCtg,
 };
 
 export default productsService;
