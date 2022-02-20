@@ -63,4 +63,13 @@ const deleteFromCart = async (req, res) => {
   });
 };
 
-module.exports = { addToCart, deleteFromCart };
+const getUserCart = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    res.send(user.cart.items);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = { addToCart, deleteFromCart, getUserCart };
