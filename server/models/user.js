@@ -12,6 +12,15 @@ const userSchema = new mongoose.Schema({
           ref: "Product",
           required: true,
         },
+        productName: {
+          type: String,
+        },
+        productImage: {
+          type: String,
+        },
+        productPrice: {
+          type: Number,
+        },
         qty: {
           type: Number,
           required: true,
@@ -35,7 +44,13 @@ userSchema.methods.addToCart = function (product) {
   if (existing >= 0) {
     cart.items[existing].qty += product.qty;
   } else {
-    cart.items.push({ productId: product._doc._id, qty: product.qty });
+    cart.items.push({
+      productId: product._doc._id,
+      productImage: product._doc.productImage,
+      productPrice: product._doc.productPrice,
+      productName: product._doc.productName,
+      qty: product.qty,
+    });
   }
   if (!cart.totalPrice) {
     cart.totalPrice = 0;
@@ -55,11 +70,13 @@ userSchema.methods.deleteFromCart = function (product) {
   if (existing >= 0) {
     let filterdArr = cart.items.filter((item) => {
       return (
-        new String(item.productId).trim() != new String(product._id).trim()
+        new String(item.productId).trim() != new String(product._doc._id).trim()
       );
     });
     cart.items = filterdArr;
   }
+  cart.totalPrice -= product._doc.productPrice * product.qty;
+  // console.log(this);
   return this.save();
 };
 

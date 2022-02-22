@@ -6,6 +6,11 @@ import {
   getProductById,
   reset,
 } from "../../Redux/features/singleProduct/singleProduct";
+import {
+  addItemToCart,
+  getUserCart,
+  reset as cartReset,
+} from "../../Redux/features/cart/cartSlice";
 import Loader from "../../Components/Loader/Loader";
 
 function SingleProduct(props) {
@@ -25,6 +30,12 @@ function SingleProduct(props) {
     dispatch(getProductById(id));
     dispatch(reset());
   }, [dispatch]);
+
+  const handleOnClick = (product) => {
+    dispatch(addItemToCart({ productId: product._id, qty: value }));
+    dispatch(cartReset());
+    console.log(product);
+  };
 
   if (isLoading) {
     return <Loader />;
@@ -68,7 +79,9 @@ function SingleProduct(props) {
               </Tag.Price>
             </Tag.PriceContainer>
           </Tag.QunContainer>
-          <Tag.AddToCartButton>Add to cart</Tag.AddToCartButton>
+          <Tag.AddToCartButton onClick={() => handleOnClick(product)}>
+            Add to cart
+          </Tag.AddToCartButton>
         </Tag.SingleRight>
       </Tag.SingleProduct>
     </Tag.Container>

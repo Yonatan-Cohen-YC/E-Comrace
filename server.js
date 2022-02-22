@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const databaseConnection = require("./server/db");
+const bodyParser = require("body-parser");
 
 // Import routes
 const usersRoute = require("./server/routes/user");
@@ -9,6 +10,10 @@ const productsRoute = require("./server/routes/product");
 const cartRoute = require("./server/routes/cart");
 
 const PORT = process.env.PORT || 5000;
+
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
+
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
 require("dotenv").config();
 

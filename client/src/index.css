@@ -22,3 +22,7 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.iconStyle {
+  color: #21222d;
+  font-size: 28px;
+}
