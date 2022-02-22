@@ -33,10 +33,13 @@ app.use("/cart", cartRoute);
 // Datebase Connection
 databaseConnection();
 
-app.get("/", (req, res) => {
-  res.send("Weolcome");
-});
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
 
+  app.get("*", (request, response) => {
+    response.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
+}
 app.listen(PORT, () => {
   console.log(`Server run on port ${PORT}`);
 });
